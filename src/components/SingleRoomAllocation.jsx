@@ -29,7 +29,12 @@ const SubText = styled.div`
   color: gray;
 `;
 
-const SingleRoomAllocation = ({ allocation, lastRoom, index, onChange }) => {
+const SingleRoomAllocation = ({
+  allocation,
+  lastRoom,
+  index,
+  disabled,
+}) => {
   const totalGuest = useSelector((state) => state.guest.totalGuest);
   const guestArray = useSelector((state) => state.guest.guestArray);
   const currentRoomPeopleArray = guestArray?.map(
@@ -73,8 +78,6 @@ const SingleRoomAllocation = ({ allocation, lastRoom, index, onChange }) => {
     totalGuest - otherTotal - child > 4 ? 4 : totalGuest - otherTotal - child;
   const maxChild =
     totalGuest - otherTotal - adult > 4 ? 4 : totalGuest - otherTotal - adult;
-
-  const disabled = currentTotal === totalGuest;
 
   return (
     <>

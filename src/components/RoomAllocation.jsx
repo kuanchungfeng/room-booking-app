@@ -19,17 +19,20 @@ const RoomAllocation = ({ guest, room, onChange }) => {
 
   onChange?.();
 
+  const disabled = guest === room;
+
   return (
     <div>
       <Summary guest={guest} room={room} />
-      {guestArray.map((guest, index) => {
+      {guestArray.map((allocation, index) => {
         return (
           <SingleRoomAllocation
             key={index}
-            allocation={guest}
+            allocation={allocation}
             lastRoom={index === room - 1}
             index={index}
             onChange={onChange}
+            disabled={disabled}
           />
         );
       })}
