@@ -1,54 +1,20 @@
 import "./App.css";
 
-import CustomInputNumber from "./components/CustomInputNumber";
 import React from "react";
+import RoomAllocation from "./components/RoomAllocation";
+import { useSelector } from "react-redux";
 
 const App = () => {
-  const logNameAndValue = (event) => {
-    console.log(`Event.target.name :${event?.target?.name}`);
-    console.log(`Event.target.value:${event?.target?.value}`);
-  };
-  const onChangeHandler = (event) => {
-    logNameAndValue(event);
-  };
+  const guestArray = useSelector((state) => state.guest.guestArray);
 
-  const onBlurHandler = (event) => {
-    logNameAndValue(event);
+  const onChangeHandler = () => {
+    console.log(guestArray);
   };
 
   return (
     <div>
       <section id="app-form">
-        <CustomInputNumber
-          min={2}
-          max={50}
-          step={2}
-          name={"number-input"}
-          value={3}
-          disabled={false}
-          onChange={onChangeHandler}
-          onBlur={onBlurHandler}
-        />
-        <CustomInputNumber
-          min={2}
-          max={50}
-          step={4}
-          name={"number-input"}
-          value={3}
-          disabled={false}
-          onChange={onChangeHandler}
-          onBlur={onBlurHandler}
-        />
-        <CustomInputNumber
-          min={2}
-          max={50}
-          step={10}
-          name={"number-input"}
-          value={3}
-          disabled={false}
-          onChange={onChangeHandler}
-          onBlur={onBlurHandler}
-        />
+        <RoomAllocation guest={10} room={3} onChange={onChangeHandler} />
       </section>
     </div>
   );

@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 
+import { guestActions } from "../store/guest";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 const STEP_INTERVAL = 200;
 
@@ -45,7 +47,11 @@ const CustomInputNumber = ({
   onChange,
   onBlur,
   disabled,
+  index,
+  isChild,
 }) => {
+  const dispatch = useDispatch();
+
   const [enteredValue, setEnteredValue] = useState(value);
   const stepTimeoutRef = useRef();
   const inputRef = useRef();
@@ -65,24 +71,42 @@ const CustomInputNumber = ({
     onChange?.(event);
   };
 
+  const plusRoomHandler = (index, isChild) => {
+    const params = { index, amount: 1 };
+    if (isChild) {
+      dispatch(guestActions.addChildByRoom(params));
+    } else {
+      dispatch(guestActions.addAdultByRoom(params));
+    }
+  };
+
+  const minusRoomHandler = (index, isChild) => {
+    const params = { index, amount: 1 };
+    if (isChild) {
+      dispatch(guestActions.minusChildByRoom(params));
+    } else {
+      dispatch(guestActions.minusAdultByRoom(params));
+    }
+  };
+
   const changeNumber = (isPlus) => {
+    if (disabled) {
+      return;
+    }
     if (isPlus) {
-      if (
-        +enteredValue + step >= max ||
-        +inputRef.current.value + step >= max
-      ) {
+      if (+enteredValue + step > max || +inputRef.current.value + step > max) {
         return;
       }
       setEnteredValue((prev) => prev + step);
+      plusRoomHandler(index, isChild);
     } else {
-      if (
-        +enteredValue - step <= min ||
-        +inputRef.current.value - step <= min
-      ) {
+      if (+enteredValue - step < min || +inputRef.current.value - step < min) {
         return;
       }
       setEnteredValue((prev) => prev - step);
+      minusRoomHandler(index, isChild);
     }
+    onChange?.();
   };
 
   const onClickButton = (event, isPlus) => {

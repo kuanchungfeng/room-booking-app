@@ -28,6 +28,7 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx"],
+    fallback: { "process/browser": require.resolve("process/browser") },
   },
   devServer: {
     static: {
